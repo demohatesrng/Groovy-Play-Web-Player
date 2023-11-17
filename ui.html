@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Groovy Play</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="stylesheet" href="web.js">
+    <!--  do not touch--> 
+<style>
+    .songList h1 {
+        margin-top: 50px;
+        }
+</style>
+</head>
+    <body>
+        <nav>
+            <ul>
+                <li class="brand" onclick="goToTop()"><img src="Logo-back/Groovy.svg" alt="groovy Play">Groovy Play</li>
+                <li onclick="goToTop()">Home</li>
+                <li onclick="share()">Share</li>
+
+                <li class="search-bar">
+                    <input type="text" placeholder="Search...">
+                        <button type="submit">Search</button>
+                </li>
+            </ul>
+        </nav>
+
+    <div class="container">
+        <div class="songList">
+            <h1 class="center">Groovy-Play-Beats</h1>
+                <div>
+                    <div class="songItem">
+                        <div>
+                            <img src="Covers/cover.1avif.avif" alt="Love Me Like You Do" data-src="songs/song1.mp3">
+                            <img src="Covers/cover2.jpeg" alt="Dandelions" data-src="songs/song2.mp3">
+                            <img src="Covers/cover3.jpeg" alt="Counting Stars" data-src="songs/song3.mp3">
+                            <img src="Covers/cover4.jpeg" alt="You'll Get Over It" data-src="songs/song4.mp3">
+                            <img src="Covers/cover5.jpeg" alt="Die For You" data-src="songs/song5.mp3">
+                            <img src="Covers/cover6.jpg" alt="Left Alone" data-src="songs/song6.mp3">
+
+                            <img src="Covers/cover7.jpg" alt="Hymm for the weekend" data-src="songs/song7.mp3">
+                            <img src="Covers/cover8.jpg" alt="Night Changes" data-src="songs/song8.mp3">
+                            <img src="Covers/cover9.jpeg" alt="Esctacy" data-src="songs/song9.mp3">
+                            <img src="Covers/cover10.jpeg" alt="Watashi No Uso" data-src="songs/song10.mp3">
+                            <img src="Covers/cover11.jpg" alt="Wanna Be Yours" data-src="songs/song11.mp3">
+                            <img src="Covers/cover12.jpeg" alt="Double Take" data-src="songs/song12.mp3">
+                        </div>
+                    </div>
+                </div>
+
+            <div class="bottom">
+                <audio id="audioPlayer" controls loop></audio>
+                <div class="icons"></div>
+            </div>
+    <script>
+        function goToTop() {
+            document.body.scrollTop = 0;
+            document.documentElement.scrollTop = 0;
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const audioPlayer = document.getElementById('audioPlayer');
+            const songListItems = document.querySelectorAll('.songItem img');
+            const currentSongName = document.getElementById('currentSongName');
+
+            songListItems.forEach((item) => {
+                item.addEventListener('click', () => {
+                    const songSrc = item.getAttribute('data-src');
+                    audioPlayer.src = songSrc;
+                    audioPlayer.play();
+
+                    currentSongName.textContent = item.alt;
+                });
+            });
+        });
+
+        function share() {
+            alert("Thank You Very Much");
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const audioPlayer = document.getElementById('audioPlayer');
+            const songListContainer = document.querySelector('.songList div');
+
+            const songListItems = document.querySelectorAll('.songItem img');
+            const originalSongList = Array.from(songListItems);
+
+            const currentSongName = document.getElementById('currentSongName');
+            const searchInput = document.querySelector('.search-bar input');
+            const searchButton = document.querySelector('.search-bar button');
+
+            songListItems.forEach((item) => {
+                item.addEventListener('click', () => {
+                    const songSrc = item.getAttribute('data-src');
+                    audioPlayer.src = songSrc;
+                    audioPlayer.play();
+                    currentSongName.textContent = item.alt;
+                });
+            });
+
+            function search() {
+                const query = searchInput.value.toLowerCase();
+
+                const filteredSongs = originalSongList.filter((item) => {
+                    const songTitle = item.alt.toLowerCase();
+                    return songTitle.includes(query);
+                });
+
+                songListContainer.innerHTML = '';
+
+                filteredSongs.forEach((item) => {
+                    const newSongItem = document.createElement('div');
+                    newSongItem.classList.add('songItem');
+                    newSongItem.innerHTML = `<img src="${item.src}" alt="${item.alt}" data-src="${item.getAttribute('data-src')}">`;
+                    songListContainer.appendChild(newSongItem);
+
+                    newSongItem.addEventListener('click', () => {
+                        const songSrc = newSongItem.firstChild.getAttribute('data-src');
+                        audioPlayer.src = songSrc;
+                        audioPlayer.play();
+                        currentSongName.textContent = item.alt;
+                    });
+                });
+            }
+            searchButton.addEventListener('click', search);
+        });
+    </script>
+    <script src="https://kit.fontawesome.com/ae051a87c1.js" crossorigin="anonymous"></script>
+</body>
+</html>
